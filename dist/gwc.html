@@ -1,0 +1,71 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title></title><link rel=stylesheet type=text/css href=./css/gwc.css><link rel=stylesheet type=text/css href=./css/reset.css><link rel=stylesheet type=text/css href=./css/swiper.css></head><body><header id=header><div id=h-nav><ul class=nav-l><li><a>商城首页</a></li><li><a>登录</a></li><li>|</li><li><a>注册</a></li></ul><div class=nav-r><p><a>个人中心</a></p><div class=box1><h3>合作渠道</h3><div class=box2><ul class=menu><li><a href=#>电视官网</a></li><li><a href=#>商家入驻</a></li></ul></div></div><div class=box1><h3>帮助中心</h3><div class=box2><ul class=menu><li><a href=#>配送安装</a></li><li><a href=#>售后服务</a></li><li><a href=#>运费标准</a></li><li><a href=#>联系客服</a></li></ul></div></div><div class=fa><h3>手机版</h3><ul class=px><li><img src=img/code1.jpg></li><li><img src=img/code2.jpg></li></ul></div></div><div class=logo>乐融商城 <a href=# title=携程旅游>乐融商城</a></div></div></header><div id=mian><div id=mian-inner><div id=box><div id=small><img src=img/nav2.2.jpg><div id=mask></div></div><div id=big><img src=img/nav2.2.jpg id=bigImg></div></div><div id=container></div><ul class=server><li><a>正</a> 正品保证</li><li><a>7</a> 无理由退货</li><li><a>快</a> 物流服务</li><li><a>GPS</a> 售后服务网点</li></ul></div></div><footer><div class=inner><div class=content><ul><li><h1><span>选购及了解</span></h1><p><span>超级电视</span></p><p><span>屏霸</span></p><p><span>生活家</span></p></li><li><h1><span>帮助中心</span></h1><p><span>新手入门</span></p><p><span>物流服务</span></p><p><span>售后政策</span></p><p><span>安装保修</span></p></li><li><h1><span>服务支持</span></h1><p><span>自助服务</span></p><p><span>乐码通道</span></p><p><span>商家电话</span></p></li><li><h1><span>关于乐融商城</span></h1><p><span>公司介绍</span></p><p><span>联系我们</span></p><p><span>加入我们</span></p><p><span>关注我们</span></p></li></ul><div class=right><h1>1010-9000</h1><a>在线客服</a><div>服务时间：9:00-22:00</div><p>生活家频道商品服务<br>需联系详情页商家电话</p></div></div><div id=copyright><div id=content>Copyright © 2004-2019 乐融商城 All rights reserved <span>|</span> 京ICP备19019019号-1 <span>|</span> 京公网安备：11000002000099号 <span>|</span> <a>营业执照信息</a></div></div></div></footer></body><script type=text/javascript src=./js/car.js></script><script type=text/javascript src=./js/publicw.js></script><script type=text/javascript>
+		window.onload = function(){
+			//需求分析:
+			//1 鼠标移入small盒子,mask盒子和big盒子显示
+			//2 鼠标移出small盒子,mask盒子和big盒子隐藏
+			//3 鼠标在small盒子中移动,mask跟着鼠标移动,并且鼠标位于mask中间
+			//4 mask不能超出small
+			//5 鼠标在small盒子中移动时,big中的图片会显示相应部分
+	
+			//技术点:
+			//事件类型:mouseenter, mouseleave ,mousemove
+			//显示和隐藏:display:none/block;
+			//事件对象中鼠标相关
+			//big中的图片会显示相应部分:top/margin-top,  left/margin-left
+	
+	
+			var small =document.getElementById('small');//小盒子
+			var mask = document.getElementById('mask');//遮罩层
+			var big = document.getElementById('big');//大盒子
+			var bigImg = document.getElementById('bigImg');//大盒子中的图片
+	
+			//1 鼠标移入small盒子,mask盒子和big盒子显示
+			small.onmouseenter = function(){
+				mask.style.display = "block";
+				big.style.display = "block";
+			}
+			//2 鼠标移出small盒子,mask盒子和big盒子隐藏
+			small.onmouseleave = function(){
+				mask.style.display = "none";
+				big.style.display = "none";
+			}
+			//3 鼠标在small盒子中移动,mask跟着鼠标移动,并且鼠标位于mask中间
+			small.onmousemove = function(e){
+				var event = window.event || e;
+				//计算鼠标在small中的位置 
+				var pageX = event.clientX + scroll().left;
+				var pageY = event.clientY + scroll().top;
+				var x = pageX - box.offsetLeft - mask.offsetWidth/2;
+				//为了让鼠标在mask中间,x要减去mask盒子的一半宽度
+				var y = pageY - box.offsetTop - mask.offsetHeight/2;
+				//为了让鼠标在mask中间,y要减去mask盒子的一半高度
+	
+				//4 mask不能超出small
+				var maxX = small.offsetWidth - mask.offsetWidth;
+				var maxY = small.offsetHeight - mask.offsetHeight;
+				if(x<0){
+					x = 0;
+				}
+				if(y<0){
+					y = 0;
+				}
+				if(x>maxX){
+					x = maxX;
+				}
+				if(y>maxY){
+					y = maxY;
+				}
+				//mask要定位
+				mask.style.left = x+"px";
+				mask.style.top = y + "px";
+				//5 鼠标在small盒子中移动时,big中的图片会显示相应部分
+				//x/small盒子的宽度 = 大图水平移动的距离/大图的宽度
+				//y/small盒子的高度 = 大图垂直移动的距离/大图的高度
+	
+				bigImg.style.marginLeft = -x/small.offsetWidth*bigImg.offsetWidth + "px";
+				bigImg.style.marginTop = -y/small.offsetHeight*bigImg.offsetHeight + "px";
+	
+			}
+			
+		}
+	</script></html>

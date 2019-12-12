@@ -1,0 +1,1 @@
+"use strict";function accMul(t,r){var c=0,e=t.toString(),l=r.toString();try{c+=e.split(".")[1].length}catch(t){}try{c+=l.split(".")[1].length}catch(t){}return Number(e.replace(".",""))*Number(l.replace(".",""))/Math.pow(10,c)}console.log(1,3);
